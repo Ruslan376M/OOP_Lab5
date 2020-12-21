@@ -122,6 +122,70 @@ public:
     }
 };
 
+class Base
+{
+public:
+    int n = 10;
+    Base()
+    {
+        printf("Base()\n");
+    }
+
+    Base(Base* obj)
+    {
+        printf("Base(Base* obj)\n");
+    }
+
+    Base(const Base& obj)
+    {
+        printf("Base(Base& obj)\n");
+    }
+    
+    ~Base()
+    {
+        printf("~Base()\n");
+    }
+};
+
+class Desc :public Base
+{
+public:
+    Desc()
+    {
+        printf("Desc()\n");
+    }
+
+    Desc(Desc* obj)
+    {
+        printf("Desc(Desc* obj)\n");
+    }
+
+    Desc(const Desc& obj)
+    {
+        printf("Desc(Desc& obj)\n");
+    }
+
+    ~Desc()
+    {
+        printf("~Desc()\n");
+    }
+};
+
+void func1(Base obj)
+{
+    printf("void func1(Base obj)\n");
+}
+
+void func2(Base* obj)
+{
+    printf("void func2(Base* obj)\n");
+}
+
+void func3(Base& obj)
+{
+    printf("void func3(Base& obj)\n");
+}
+
 int main()
 {
     setlocale(LC_ALL, "Russian");
@@ -159,5 +223,17 @@ int main()
         ((WildAnimal*)animal2)->chase();
     printf("\n\n");
 
-
+    // Передача объектов как параметров в функции
+    Base* base = new Base();
+    Desc* desc = new Desc();
+    desc->n = 20;
+    printf("\n");
+    func1(base);
+    func2(base);
+    func3(*base);
+    printf("\n");
+    func1(desc);
+    func2(desc);
+    func3(*desc);
+    
 }
