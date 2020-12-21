@@ -101,6 +101,11 @@ public:
         printf("R-r-r-r-r-r\n");
     }
 
+    void chase()
+    {
+        printf("Дикое животное начало погоню\n");
+    }
+
     string className()
     {
         return "WildAnimal";
@@ -141,6 +146,18 @@ int main()
         printf("WildAnimal\n");
     if (animal2->isA("WildAnimal"))
         printf("WildAnimal\n");
+    printf("\n\n");
+
+    // Безопасное приведение типов (dynamic_cast)
+    WildAnimal* temp = dynamic_cast<WildAnimal*>(animal2);
+    if (temp)
+        temp->chase();
+    printf("\n\n");
+
+    // Безопасное приведение типов (вручную)
+    if (animal2->isA("WildAnimal"))
+        ((WildAnimal*)animal2)->chase();
+    printf("\n\n");
 
 
 }
