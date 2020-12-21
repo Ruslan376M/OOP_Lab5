@@ -311,6 +311,4 @@ int main()
     test_->method3();
     test_->method4();
     printf("\n\n");
-
-
 }
