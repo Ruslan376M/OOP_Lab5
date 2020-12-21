@@ -125,7 +125,6 @@ public:
 class Base
 {
 public:
-    int n = 10;
     Base()
     {
         printf("Base()\n");
@@ -186,6 +185,67 @@ void func3(Base& obj)
     printf("void func3(Base& obj)\n");
 }
 
+class Test1
+{
+public:
+    Test1()
+    {
+        printf("Test1()\n");
+    }
+
+    void method1()
+    {
+        method2();
+    }
+
+    void method2()
+    {
+        printf("method2() из Test1\n");
+    }
+
+    void method3()
+    {
+        method4();
+    }
+
+    virtual void method4()
+    {
+        printf("method4() из Test1\n");
+    }
+
+    virtual ~Test1()
+    {
+        printf("~Test1()\n");
+    }
+};
+
+class Test2 : public Test1
+{
+public:
+    int* n;
+    Test2()
+    {
+        n = new int[10];
+        printf("Test2() - Память выделена\n");
+    }
+
+    void method2()
+    {
+        printf("method2() из Test2\n");
+    }
+
+    void method4()
+    {
+        printf("method4() из Test2\n");
+    }
+
+    ~Test2()
+    {
+        delete n;
+        printf("~Test2() - Память освобождена\n");
+    }
+};
+
 int main()
 {
     setlocale(LC_ALL, "Russian");
@@ -226,7 +286,6 @@ int main()
     // Передача объектов как параметров в функции
     Base* base = new Base();
     Desc* desc = new Desc();
-    desc->n = 20;
     printf("\n");
     func1(base);
     func2(base);
@@ -235,5 +294,23 @@ int main()
     func1(desc);
     func2(desc);
     func3(*desc);
+    printf("\n\n");
     
+    // Виртуальный деструктор
+    Test1* test = new Test2();
+    delete test;
+    printf("\n\n");
+
+    // Вызов переопределённого метода
+    Test2* test_ = new Test2();
+    test_->method1();
+    test_->method2();
+    printf("\n\n");
+
+    // Вызов переопределённого виртуального метода
+    test_->method3();
+    test_->method4();
+    printf("\n\n");
+
+
 }
