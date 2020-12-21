@@ -1,11 +1,12 @@
 ﻿#include <iostream>
+#include <locale.h>
 #include <string>
 
 using namespace std;
 
 class Animal
 {
-private:
+protected:
     int age;
     int weight;
     string name;
@@ -52,7 +53,22 @@ public:
 
     void sound()
     {
-        printf("Animal хотело что-то сказать\n");
+        printf("Animal хотел что-то сказать\n");
+    }
+
+    virtual void sound2()
+    {
+        printf("Animal попытался издать другой звук\n");
+    }
+
+    virtual string className()
+    {
+        return "Animal";
+    }
+
+    virtual bool isA(string className)
+    {
+        return className == "Animal";
     }
 
     virtual ~Animal()
@@ -61,26 +77,70 @@ public:
     }
 };
 
-class wildAnimal :public Animal
+class WildAnimal :public Animal
 {
-    wildAnimal()
+public:
+    WildAnimal()
     {
-        printf("wildAnimal()\n");
+        printf("WildAnimal()\n");
     }
 
-    wildAnimal(int age, int weight, string name = "")
+    WildAnimal(int age, int weight, string name = "")
         :Animal(age, weight, name) 
     {
-        printf("wildAnimal(int age, int weight, string name = "")\n");
+        printf("WildAnimal(int age, int weight, string name = "")\n");
     }
 
-    ~wildAnimal()
+    void sound()
     {
-        printf("~wildAnimal()");
+        printf("Raaaaarrrr\n");
+    }
+
+    void sound2()
+    {
+        printf("R-r-r-r-r-r\n");
+    }
+
+    string className()
+    {
+        return "WildAnimal";
+    }
+
+    bool isA(string className)
+    {
+        return className == "WildAnimal";
+    }
+
+    ~WildAnimal()
+    {
+        printf("~WildAnimal()");
     }
 };
 
 int main()
 {
-    
+    setlocale(LC_ALL, "Russian");
+    Animal* animal1 = new Animal(5, 4, "Кот");
+    WildAnimal* wildAnimal1 = new WildAnimal(8, 160, "Тигр");
+    Animal* animal2 = new WildAnimal(10, 190, "Лев");
+    printf("\n\n");
+
+    // Перекрываемые методы
+    animal1->sound();
+    wildAnimal1->sound();
+    printf("\n\n");
+
+    // Виртуальные методы
+    animal1->sound2();
+    wildAnimal1->sound2();
+    animal2->sound2();
+    printf("\n\n");
+
+    // Проверка на принадлежность классу
+    if (animal2->className() == "WildAnimal")
+        printf("WildAnimal\n");
+    if (animal2->isA("WildAnimal"))
+        printf("WildAnimal\n");
+
+
 }
